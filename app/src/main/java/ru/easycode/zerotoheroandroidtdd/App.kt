@@ -7,7 +7,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class App : Application() {
 
     lateinit var viewModel: MainViewModel
-
     override fun onCreate() {
         super.onCreate()
         val retrofit = Retrofit.Builder()
