@@ -14,6 +14,15 @@ class RepositoryTest {
         val expected = SimpleResponse(text = "A")
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun testB() = runBlocking {
+        val service = FakeService.Base()
+        val repository = Repository.Base(service = service, url = "b")
+        val actual = repository.load()
+        val expected = SimpleResponse(text = "B")
+        assertEquals(expected, actual)
+    }
 }
 
 private interface FakeService : SimpleService {

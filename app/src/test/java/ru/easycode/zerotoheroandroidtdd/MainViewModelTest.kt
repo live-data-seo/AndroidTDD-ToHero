@@ -49,13 +49,21 @@ class MainViewModelTest {
 
     @Test
     fun test() {
+        viewModel.init()
+        liveDataWrapper.checkUpdateCalls(
+            listOf(
+                UiState.Init(text = "Hello World!")
+            )
+        )
+        liveDataWrapper.checkInitCalled(UiState.Init("Hello World!"))
         repository.expectResponse(SimpleResponse(text = "testingText"))
 
         viewModel.load()
         liveDataWrapper.checkUpdateCalls(
             listOf(
-                UiState.ShowProgress,
-                UiState.ShowData(text = "testingText")
+                UiState.Init(text = "Hello World!"),
+                UiState.Loading,
+                UiState.Loaded(text = "testingText")
             )
         )
         repository.checkLoadCalledTimes(1)
@@ -69,7 +77,7 @@ class MainViewModelTest {
         initialize()
 
         viewModel.restore(bundleWrapper = bundleWrapperRestore)
-        liveDataWrapper.checkUpdateCalls(listOf(UiState.ShowData(text = "testingText")))
+        liveDataWrapper.checkUpdateCalls(listOf(UiState.Loaded(text = "testingText")))
         repository.checkLoadCalledTimes(0)
     }
 }
@@ -91,6 +99,7 @@ private interface FakeBundleWrapper : BundleWrapper.Mutable {
 private interface FakeLiveDataWrapper : LiveDataWrapper {
 
     fun checkUpdateCalls(expected: List<UiState>)
+    fun checkInitCalled(uiState: UiState)
 
     class Base : FakeLiveDataWrapper {
 
@@ -110,6 +119,10 @@ private interface FakeLiveDataWrapper : LiveDataWrapper {
 
         override fun liveData(): LiveData<UiState> {
             throw IllegalStateException("not used in test")
+        }
+
+        override fun checkInitCalled(uiState: UiState) {
+            assertEquals(uiState, actualCallsList.last())
         }
     }
 }
