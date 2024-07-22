@@ -1,6 +1,10 @@
 package ru.easycode.zerotoheroandroidtdd
 
 import org.junit.Test
+import ru.easycode.zerotoheroandroidtdd.data.cloud.SimpleResponse
+import ru.easycode.zerotoheroandroidtdd.data.model.LoadResult
+import ru.easycode.zerotoheroandroidtdd.ui.LiveDataWrapper
+import ru.easycode.zerotoheroandroidtdd.ui.UiState
 
 class LoadResultTest {
 
@@ -10,7 +14,7 @@ class LoadResultTest {
         val liveDataWrapper = FakeLiveDataWrapper.Base()
         val liveDataWrapperUpdate: LiveDataWrapper.Update = liveDataWrapper
         result.show(updateLiveData = liveDataWrapperUpdate)
-        liveDataWrapper.checkUpdateCalls(listOf(UiState.ShowData(text = "some text here")))
+        liveDataWrapper.checkUpdateCalls(listOf(UiState.Loaded(text = "some text here")))
     }
 
     @Test
@@ -19,7 +23,7 @@ class LoadResultTest {
         val liveDataWrapper = FakeLiveDataWrapper.Base()
         val liveDataWrapperUpdate: LiveDataWrapper.Update = liveDataWrapper
         result.show(updateLiveData = liveDataWrapperUpdate)
-        liveDataWrapper.checkUpdateCalls(listOf(UiState.ShowData(text = "No internet connection")))
+        liveDataWrapper.checkUpdateCalls(listOf(UiState.Loaded(text = "No internet connection")))
     }
 
     @Test
@@ -28,6 +32,6 @@ class LoadResultTest {
         val liveDataWrapper = FakeLiveDataWrapper.Base()
         val liveDataWrapperUpdate: LiveDataWrapper.Update = liveDataWrapper
         result.show(updateLiveData = liveDataWrapperUpdate)
-        liveDataWrapper.checkUpdateCalls(listOf(UiState.ShowData(text = "Something went wrong")))
+        liveDataWrapper.checkUpdateCalls(listOf(UiState.Loaded(text = "Something went wrong")))
     }
 }

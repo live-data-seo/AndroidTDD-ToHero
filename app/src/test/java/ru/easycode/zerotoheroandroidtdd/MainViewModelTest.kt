@@ -9,6 +9,11 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import ru.easycode.zerotoheroandroidtdd.data.cloud.SimpleResponse
+import ru.easycode.zerotoheroandroidtdd.data.model.LoadResult
+import ru.easycode.zerotoheroandroidtdd.data.repository.Repository
+import ru.easycode.zerotoheroandroidtdd.ui.BundleWrapper
+import ru.easycode.zerotoheroandroidtdd.ui.UiState
 
 /**
  * Please also check out the ui test
@@ -51,8 +56,8 @@ class MainViewModelTest {
         viewModel.load()
         liveDataWrapper.checkUpdateCalls(
             listOf(
-                UiState.ShowProgress,
-                UiState.ShowData(text = "testingText")
+                UiState.Loading,
+                UiState.Loaded(text = "testingText")
             )
         )
         repository.checkLoadCalledTimes(1)
@@ -66,7 +71,7 @@ class MainViewModelTest {
         initialize()
 
         viewModel.restore(bundleWrapper = bundleWrapperRestore)
-        liveDataWrapper.checkUpdateCalls(listOf(UiState.ShowData(text = "testingText")))
+        liveDataWrapper.checkUpdateCalls(listOf(UiState.Loaded(text = "testingText")))
         repository.checkLoadCalledTimes(0)
     }
 }
