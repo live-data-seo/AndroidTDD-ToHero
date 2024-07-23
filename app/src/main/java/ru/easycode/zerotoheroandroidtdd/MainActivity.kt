@@ -89,7 +89,7 @@ interface UiState : Serializable {
 
     data class ChangeInputEditText(private val text: String) : UiState {
         override fun apply(textView: TextView, inputEditText: TextInputEditText, button: Button) {
-            button.isEnabled = text == "min"
+            button.isEnabled = text.length == 3
         }
     }
 
